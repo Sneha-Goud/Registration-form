@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View User Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 600px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #007BFF;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 15px 0;
+      color: #333;
+    }
+
+    strong {
+      color: #555;
+    }
+
+    span {
+      color: #000;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>User Details</h2>
+    <p><strong>Name:</strong> <span id="name"></span></p>
+    <p><strong>Email:</strong> <span id="email"></span></p>
+    <p><strong>Phone:</strong> <span id="phone"></span></p>
+    <p><strong>Gender:</strong> <span id="gender"></span></p>
+    <p><strong>Birth Date:</strong> <span id="birthdate"></span></p>
+    <p><strong>Address1:</strong> <span id="address1"></span></p>
+    <p><strong>Address2:</strong> <span id="address2"></span></p>
+    <p><strong>Country:</strong> <span id="country"></span></p>
+    <p><strong>City:</strong> <span id="city"></span></p>
+    <p><strong>Region:</strong> <span id="region"></span></p>
+    <p><strong>POstal Code:</strong> <span id="post"></span></p>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get('id');
+
+    fetch(`/users/${userId}`)
+      .then(res => res.json())
+      .then(user => {
+
+        document.getElementById('name').textContent = user.fullName;
+        document.getElementById('email').textContent = user.email;
+        document.getElementById('phone').textContent = user.phone;
+        document.getElementById('gender').textContent = user.gender;
+        document.getElementById('birthdate').textContent = new Date(user.birthDate).toLocaleDateString();
+        document.getElementById('address1').textContent = user.addressLine1;
+        document.getElementById('address2').textContent = user.addressLine2;
+        document.getElementById('country').textContent = user.country;
+        document.getElementById('city').textContent = user.city;
+        document.getElementById('region').textContent = user.region;
+        document.getElementById('post').textContent = user.postalCode;
+      })
+      .catch(err => {
+        console.error("Failed to load user:", err);
+        alert("Failed to load user details");
+      });
+  </script>
+</body>
+</html>
